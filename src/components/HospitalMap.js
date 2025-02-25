@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Map, { Marker, Source, Layer, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MAPBOX_TOKEN = ProcessingInstruction.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 export default function HospitalMap({ hospitals, boundary }) {
   const [viewState, setViewState] = useState({
