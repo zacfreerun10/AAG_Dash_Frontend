@@ -21,7 +21,7 @@ export default function Chatbot({ onSearch, onMortalitySearch,onHealthIndicatorS
 
     console.log("Sending API request...");
     try {
-      const res = await fetch("http://127.0.0.1:8000/chatbot/", {
+      const res = await fetch("https://aag-dash.onrender.com/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
