@@ -6,7 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoibWV0cm9raW0yMTciLCJhIjoiY2x4dzFrazJxMmJkajJycHpnNThpYjZpZiJ9.l0lDGi84xouJXT_uq91FOQ";
+const MAPBOX_TOKEN = ProcessingInstruction.env.REACT_APP_MAPBOX_TOKEN;
 
 export default function HealthIndicatorMap({ boundary = [], classification_data = [], data }) {
   console.log("boundary prop:", boundary);
@@ -112,6 +112,12 @@ export default function HealthIndicatorMap({ boundary = [], classification_data 
     return acc;
   }, {});
   
+  const indicator = (boundary.features || []).map(feature => ({
+ 
+    indicator: feature.properties.indicator
+  
+  }));
+
 
   const chartData = {
     labels: Object.keys(categoryCounts),
@@ -127,6 +133,7 @@ export default function HealthIndicatorMap({ boundary = [], classification_data 
   };
 
 const chartOptions = {
+  labels: indicator.map(item => item.indicator),
     responsive: true,
     plugins: {
       legend: {
@@ -134,7 +141,7 @@ const chartOptions = {
       },
       title: {
         display: true,
-        text: `Chart showing count of counties`,
+        text: `Chart of ${indicator[0]?.indicator} count of counties`,
       },
     },
   };

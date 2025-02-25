@@ -6,7 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoibWV0cm9raW0yMTciLCJhIjoiY2x4dzFrazJxMmJkajJycHpnNThpYjZpZiJ9.l0lDGi84xouJXT_uq91FOQ";
+const MAPBOX_TOKEN = ProcessingInstruction.env.REACT_APP_MAPBOX_TOKEN;
 
 export default function MortalityMap({ boundary, data }) {
   console.log("boundary prop:", boundary);
@@ -190,7 +190,7 @@ export default function MortalityMap({ boundary, data }) {
       },
       title: {
         display: true,
-        text: 'Health Data Comparison of Counties',
+        text: `${topNData[0]?.indicator } Data Comparision of Counties`,
       },
     },
   };
@@ -215,7 +215,7 @@ export default function MortalityMap({ boundary, data }) {
       <Map
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
-        mapStyle="mapbox://styles/mapbox/light-v10"
+        mapStyle="mapbox://styles/mapbox/light-v11"
         mapboxAccessToken={MAPBOX_TOKEN}
         onClick={handleCountyClick}
       >
