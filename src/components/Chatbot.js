@@ -83,7 +83,7 @@ export default function Chatbot({ onSearch, onMortalitySearch, onHealthIndicator
     };
 
     mediaRecorder.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+      const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
       setAudioBlob(audioBlob);
       sendAudioToOpenAI(audioBlob);
     };
