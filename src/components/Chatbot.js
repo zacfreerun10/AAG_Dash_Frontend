@@ -112,7 +112,7 @@ export default function Chatbot({ onSearch, onMortalitySearch, onHealthIndicator
       const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_OPEN_API_KEY}`,
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: formData,
