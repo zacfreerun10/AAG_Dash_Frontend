@@ -113,7 +113,7 @@ export default function Chatbot({ onSearch, onMortalitySearch, onHealthIndicator
         method: "POST",
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_OPEN_API_KEY}`,
-          "Content Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: formData,
       });
