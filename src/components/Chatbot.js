@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 
-const MAPBOX_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN");
+const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 export default function Chatbot({ onSearch, onMortalitySearch, onHealthIndicatorSearch }) {
   const [query, setQuery] = useState("");
