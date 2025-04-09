@@ -3,8 +3,9 @@ import Chatbot from "./components/Chatbot";
 import HospitalMap from "./components/HospitalMap";
 import MortalityMap from "./components/MortalityMap";
 import HealthIndicatorMap from "./components/HealthIndicatorMap";
-import DefaultMap from "./components/DefaultMap";
 import ErrorBoundary from "./components/ErrorBoundary";
+import DefaultMap from "./components/DefaultMap";
+import HospitalRouteMap from "./components/hospitalRoute";
 
 function App() {
   const [hospitals, setHospitals] = useState([]);
@@ -17,24 +18,32 @@ function App() {
   const [healthIndicatorData, setHealthIndicatorData] = useState(null);
   const [classificationData, setClassificationData] = useState([]);
 
+  const [routedHospital, setRoutedHospital] = useState(null);
+  const [route, setRoute] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
+
   const [activeMap, setActiveMap] = useState(null);
 
-  const updateHospitalMap = (newHospitals, newBoundary) => {
-    console.log("Updating Hospital Map Data", newHospitals, newBoundary);
-    setHospitals(newHospitals || []);
-    setHospitalBoundary(newBoundary || null);
-    setActiveMap("hospital");
+  const updateHospitalMap = (newHospitals, newBoundary, selectedHospital, routeData, location) => {
+    if (routeData && selectedHospital) {
+      setRoutedHospital(selectedHospital);
+      setRoute(routeData);
+      setUserLocation(location);
+      setActiveMap("hospital_route");
+    } else {
+      setHospitals(newHospitals || []);
+      setHospitalBoundary(newBoundary || null);
+      setActiveMap("hospital");
+    }
   };
 
   const updateMortalityMap = (boundary, data) => {
-    console.log("Updating Mortality Map Data", boundary, data);
     setMortalityBoundary(boundary || null);
     setMortalityData(data || null);
     setActiveMap("mortality");
   };
 
   const updateHealthIndicatorMap = (boundary, data, classification) => {
-    console.log("Updating Health Indicator Map Data", boundary, data, classification);
     setHealthIndicatorBoundary(boundary || null);
     setHealthIndicatorData(data || null);
     setClassificationData(classification || []);
@@ -49,26 +58,30 @@ function App() {
         onHealthIndicatorSearch={updateHealthIndicatorMap}
       />
       <div style={{ position: "absolute", right: 0, top: 0, width: "50%" }}>
-        <h1 style={{ textAlign: "center" }}>Chatbot for Health Data Query</h1>
+        <h1 style={{ textAlign: "center" }}>Chatbot</h1>
       </div>
 
-      {/* Map Section (Right Side) */}
       <div className="map-container">
         <ErrorBoundary>
-          {activeMap === "hospital" && hospitalBoundary && (
+          {activeMap === "hospital" && hospitalBoundary ? (
             <HospitalMap hospitals={hospitals} boundary={hospitalBoundary} />
-          )}
-          {activeMap === "mortality" && mortalityBoundary && (
+          ) : activeMap === "hospital_route" && routedHospital && route && userLocation ? (
+            <HospitalRouteMap
+              hospital={routedHospital}
+              route={route}
+              userLocation={userLocation}
+            />
+          ) : activeMap === "mortality" && mortalityBoundary ? (
             <MortalityMap data={mortalityData} boundary={mortalityBoundary} />
-          )}
-          {activeMap === "healthIndicator" && healthIndicatorBoundary && (
+          ) : activeMap === "healthIndicator" && healthIndicatorBoundary ? (
             <HealthIndicatorMap
               data={healthIndicatorData}
               boundary={healthIndicatorBoundary}
               classification_data={classificationData}
             />
+          ) : (
+            <DefaultMap />
           )}
-          {!activeMap && <DefaultMap />}
         </ErrorBoundary>
       </div>
     </div>
