@@ -10,6 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.2.1",
     "@shadcn/ui": "^0.0.4",
     "chart.js": "^4.4.8",
     "mapbox-gl": "^3.10.0",
